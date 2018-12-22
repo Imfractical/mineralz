@@ -24,3 +24,9 @@ class Mineral(models.Model):
     crystal_habit = models.CharField(blank=True, max_length=MAX_LENGTH)
     specific_gravity = models.CharField(blank=True, max_length=MAX_LENGTH)
     group = models.CharField(blank=True, max_length=MAX_LENGTH)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
