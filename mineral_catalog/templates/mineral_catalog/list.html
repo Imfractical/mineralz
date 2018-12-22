@@ -1,0 +1,13 @@
+{% extends 'mineral_catalog/base.html' %}
+
+{% block content %}
+    {% for mineral in minerals %}
+    <div class="grid-100">
+        <ul class="minerals__container">
+            <li class="minerals__item">
+                <a class="minerals__anchor" href="detail.html">{{ mineral.name }}</a>
+            </li>
+        </ul>
+    </div>
+    {% endfor %}
+{% endblock %}
