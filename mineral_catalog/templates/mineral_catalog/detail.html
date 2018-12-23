@@ -1,4 +1,6 @@
 {% extends 'mineral_catalog/base.html' %}
+{% load static %}
+{% load getattr %}
 
 {% block title %}{{ mineral.name }} - {{ super }}{% endblock %}
 
@@ -6,15 +8,17 @@
 <div class="grid-100 mineral__container">
     <h1 class="mineral__name">{{ mineral.name }}</h1>
     <div class="mineral__image-bg">
-        <img class="mineral__image" src="{% static 'images/' + mineral.name + '.jpg'}">
+        <img class="mineral__image" src="{% get_static_prefix %}images/{{ mineral.name }}.jpg">
         <p class="mineral__caption">{{ mineral.image_caption }}</p>
     </div>
     <div class="mineral__table-container">
         <table class="mineral__table">
-            {% for field in mineral %}
+            {% for field in fields %}
             <tr>
-                {% if field.name == 'formula' %}<td class="mineral__formula">{% else %}<td class="mineral__category">{% endif %}{{ field.name }}</td>
-                <td>{{ field }}</td>
+                {% if mineral|getattr:field %}
+                    {% if field == 'formula' %}<td class="mineral__formula">{% else %}<td class="mineral__category">{% endif %}{{ field }}</td>
+                    <td>{{ mineral|getattr:field|title }}</td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>
