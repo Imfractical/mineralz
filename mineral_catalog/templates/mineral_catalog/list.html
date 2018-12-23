@@ -5,7 +5,7 @@
     <div class="grid-100">
         <ul class="minerals__container">
             <li class="minerals__item">
-                <a class="minerals__anchor" href="detail.html">{{ mineral.name }}</a>
+                <a class="minerals__anchor" href="{% url 'catalog:detail' mineral.slug %}">{{ mineral.name }}</a>
             </li>
         </ul>
     </div>
