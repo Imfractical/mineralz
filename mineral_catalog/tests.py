@@ -175,10 +175,17 @@ class ViewTests(TestCase):
         populate_command = populate.Command()
         populate_command.handle(json_file='included/data/minerals.json')
 
-    def test_list_view(self):
+    def test_list_view_with_a(self):
         response = self.client.get(reverse('catalog:list'))
         self.assertEqual(response.status_code, 200)
-        minerals = Mineral.objects.all()
+        minerals = Mineral.objects.filter(name__istartswith='a')
+        for mineral in minerals:
+            self.assertContains(response, mineral.name)
+
+    def test_list_view_with_m(self):
+        response = self.client.get(reverse('catalog:list'))
+        self.assertEqual(response.status_code, 200)
+        minerals = Mineral.objects.filter(name__istartswith='m')
         for mineral in minerals:
             self.assertContains(response, mineral.name)
 

@@ -18,7 +18,7 @@
     <body>
         <div class="bounds">
             <div class="grid-100">
-            <a href="{% url 'catalog:list' %}">
+            <a href="{% url 'catalog:list' 'a' %}">
                 <svg class="logo" viewBox="0 0 127.6 84.8" preserveAspectRation="xMinYMin meet">
                     <polygon points="42.7,84.8 49.6,79.4 40,62.5 51.2,43.5 51.2,43.5 25,0 0,55.6 "/>
                     <polygon class="logo--middle" points="52.9,79.5 52.9,79.5 84.8,80.1 59.7,35 43.3,62.4 "/>
@@ -30,5 +30,12 @@
             </div>
         </div>
         {% block content %}{% endblock %}
+        <footer>
+            <section style="text-align:center;">
+            {% for letter in 'abcdefghijklmnopqrstuvwxyz' %}
+                <a href="{% url 'catalog:list' letter %}">{{ letter }}</a>
+            {% endfor %}
+            </section>
+        </footer>
     </body>
 </html>

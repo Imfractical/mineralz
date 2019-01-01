@@ -4,15 +4,12 @@ from django.shortcuts import redirect, render
 from .models import Mineral
 
 
-def redirect_home(request):
-    return redirect('catalog:list')
+def redirect_to_list(request):
+    return redirect('catalog:list', letter='a', permanent=True)
 
 
-def list_minerals(request, letter=None):
-    if letter:
-        minerals = Mineral.objects.filter(name__istartswith=letter)
-    else:
-        minerals = Mineral.objects.all()
+def list_minerals(request, letter='a'):
+    minerals = Mineral.objects.filter(name__istartswith=letter)
 
     return render(request, 'mineral_catalog/list.html', {'minerals': minerals})
 
