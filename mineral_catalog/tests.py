@@ -155,7 +155,7 @@ class PopulateCommandTests(TestCase):
         )
 
 
-class GetattrTagTests(TestCase):
+class GetattrFilterTests(TestCase):
     def setUp(self):
         Mineral.objects.create(name='Whoarock')
 
@@ -169,21 +169,34 @@ class GetattrTagTests(TestCase):
         self.assertInHTML('Whoarock', rendered_template)
 
 
+class ConcatFilterTests(TestCase):
+    def test_concat(self):
+        context = Context({'val1': 'help ', 'val2': 'me'})
+        template_to_render = Template(
+            '{% load concat %}'
+            '{% with "You "|concat:val1|concat:val2 as do_it %}'
+            '{{ do_it }}'
+            '{% endwith %}'
+        )
+        rendered_template = template_to_render.render(context)
+        self.assertInHTML('You help me', rendered_template)
+
+
 class ViewTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         populate_command = populate.Command()
         populate_command.handle(json_file='included/data/minerals.json')
 
-    def test_list_view_with_a(self):
-        response = self.client.get(reverse('catalog:list'))
+    def test_list_view_with_letter_a(self):
+        response = self.client.get(reverse('catalog:list', args=['a']))
         self.assertEqual(response.status_code, 200)
         minerals = Mineral.objects.filter(name__istartswith='a')
         for mineral in minerals:
             self.assertContains(response, mineral.name)
 
-    def test_list_view_with_m(self):
-        response = self.client.get(reverse('catalog:list'))
+    def test_list_view_with_letter_m(self):
+        response = self.client.get(reverse('catalog:list', args=['m']))
         self.assertEqual(response.status_code, 200)
         minerals = Mineral.objects.filter(name__istartswith='m')
         for mineral in minerals:

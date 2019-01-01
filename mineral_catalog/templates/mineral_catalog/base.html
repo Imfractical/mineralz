@@ -1,5 +1,7 @@
 {% load static %}
 
+{% load concat %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -33,7 +35,13 @@
         <footer>
             <section style="text-align:center;">
             {% for letter in 'abcdefghijklmnopqrstuvwxyz' %}
+                {% with 'list/'|concat:letter as target_url %}
+                {% if target_url == request.path %}
+                <strong><a href="{% url 'catalog:list' letter %}">{{ letter }}</a></strong>
+                {% else %}
                 <a href="{% url 'catalog:list' letter %}">{{ letter }}</a>
+                {% endif %}
+                {% endwith %}
             {% endfor %}
             </section>
         </footer>
