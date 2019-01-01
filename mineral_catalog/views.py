@@ -1,3 +1,4 @@
+"""mineral_catalog view definitions"""
 from django.shortcuts import redirect, render
 
 from .models import Mineral

@@ -1,3 +1,4 @@
+"""mineral_catalog model definitions"""
 from django.db import models
 from django.utils.text import slugify
 

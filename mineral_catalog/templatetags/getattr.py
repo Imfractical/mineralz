@@ -1,3 +1,4 @@
+"""Templatetag similiar to Python's builtin getattr function"""
 from django import template
 
 register = template.Library()

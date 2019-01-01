@@ -1,3 +1,4 @@
+"""Command that populates database from a specially-formatted JSON file"""
 import json
 
 from django.core.management.base import BaseCommand, CommandError
