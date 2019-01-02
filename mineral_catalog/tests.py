@@ -188,17 +188,31 @@ class ViewTests(TestCase):
         populate_command = populate.Command()
         populate_command.handle(json_file='included/data/minerals.json')
 
-    def test_list_view_with_letter_a(self):
+    def test_view_list_by_letter_with_a(self):
         response = self.client.get(reverse('catalog:list', args=['a']))
         self.assertEqual(response.status_code, 200)
         minerals = Mineral.objects.filter(name__istartswith='a')
         for mineral in minerals:
             self.assertContains(response, mineral.name)
 
-    def test_list_view_with_letter_m(self):
+    def test_view_list_by_letter_with_m(self):
         response = self.client.get(reverse('catalog:list', args=['m']))
         self.assertEqual(response.status_code, 200)
         minerals = Mineral.objects.filter(name__istartswith='m')
+        for mineral in minerals:
+            self.assertContains(response, mineral.name)
+
+    def test_view_list_by_group_with_silicates(self):
+        response = self.client.get(reverse('catalog:list_by_group', args=['silicates']))
+        self.assertEqual(response.status_code, 200)
+        minerals = Mineral.objects.filter(group__iexact='silicates')
+        for mineral in minerals:
+            self.assertContains(response, mineral.name)
+
+    def test_view_list_by_group_with_native_elements(self):
+        response = self.client.get(reverse('catalog:list_by_group', args=['native_elements']))
+        self.assertEqual(response.status_code, 200)
+        minerals = Mineral.objects.filter(group__iexact='native elements')
         for mineral in minerals:
             self.assertContains(response, mineral.name)
 
@@ -206,3 +220,8 @@ class ViewTests(TestCase):
         mineral = Mineral.objects.get(name='Aegirine')
         response = self.client.get(reverse('catalog:detail', args=[mineral.slug]))
         self.assertContains(response, 'a = 9.658 Å, b = 8.795 Å, c = 5.294 Å, β = 107.42°; Z=4')
+
+    def test_search_view(self):
+        response = self.client.get(reverse('catalog:search'), {'query': 'pink'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Alabandite')

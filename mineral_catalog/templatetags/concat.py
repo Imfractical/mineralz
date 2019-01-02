@@ -1,3 +1,4 @@
+"""Template filter used to concatenate strings"""
 from django import template
 
 register = template.Library()

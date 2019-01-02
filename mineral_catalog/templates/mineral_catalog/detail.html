@@ -2,7 +2,7 @@
 {% load static %}
 {% load getattr %}
 
-{% block title %}{{ mineral.name }} - {{ super }}{% endblock %}
+{% block title %}{{ mineral.name }} - {{ block.super }}{% endblock %}
 
 {% block content %}
 <div class="grid-100 mineral__container">
@@ -16,8 +16,8 @@
             {% for field in fields %}
             <tr>
                 {% if mineral|getattr:field %}
-                    {% if field == 'formula' %}<td class="mineral__formula">{% else %}<td class="mineral__category">{% endif %}{{ field }}</td>
-                    <td>{{ mineral|getattr:field }}</td>
+                    {% if field == 'formula' %}<td class="mineral__formula">{% else %}<td class="mineral__category">{% endif %}{{ field|title }}</td>
+                    <td>{{ mineral|getattr:field|safe }}</td>
                 {% endif %}
             </tr>
             {% endfor %}

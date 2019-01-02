@@ -3,11 +3,15 @@
 {% block content %}
     <div class="grid-100">
         <ul class="minerals__container">
-            {% for mineral in minerals %}
-            <li class="minerals__item">
-                <a class="minerals__anchor" href="{% url 'catalog:detail' mineral.slug %}">{{ mineral.name }}</a>
-            </li>
-            {% endfor %}
+            {% if not minerals %}
+            <span style="text-align:center;">Sorry, no minerals here. Bummer!</span>
+            {% else %}
+                {% for mineral in minerals %}
+                <li class="minerals__item">
+                    <a class="minerals__anchor" href="{% url 'catalog:detail' mineral.slug %}">{{ mineral.name|capfirst }}</a>
+                </li>
+                {% endfor %}
+            {% endif %}
         </ul>
     </div>
 {% endblock %}

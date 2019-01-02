@@ -1,5 +1,5 @@
 """
-Django settings for mineralz project
+mineralz project Django settings
 
 For more information on this file, see
 https://docs.djangoproject.com/en/2.1/topics/settings/
@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
+    'debug_toolbar',
     'mineral_catalog',
 ]
 
@@ -46,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'mineralz.urls'
@@ -61,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'mineral_catalog.context_processors.mineral_groups',
             ],
         },
     },
@@ -74,8 +78,12 @@ WSGI_APPLICATION = 'mineralz.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mineralz',
+        'USER': 'mineralz',
+        'PASSWORD': 'SUPERMINERALZ',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -117,3 +125,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Miscellaneous
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]

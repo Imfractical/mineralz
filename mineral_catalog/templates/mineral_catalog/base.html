@@ -1,6 +1,7 @@
 {% load static %}
 
 {% load concat %}
+{% load getattr %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,32 +19,47 @@
         <link href="https://fonts.googleapis.com/css?family=Cousine" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <div class="bounds">
-            <div class="grid-100">
-            <a href="{% url 'catalog:list' 'a' %}">
-                <svg class="logo" viewBox="0 0 127.6 84.8" preserveAspectRation="xMinYMin meet">
-                    <polygon points="42.7,84.8 49.6,79.4 40,62.5 51.2,43.5 51.2,43.5 25,0 0,55.6 "/>
-                    <polygon class="logo--middle" points="52.9,79.5 52.9,79.5 84.8,80.1 59.7,35 43.3,62.4 "/>
-                    <polygon points="127.6,61.4 127.6,61.4 110.3,13.5 110.3,13.5 70.3,48.1 70.3,48.1 88.3,80.5 95.3,81.4 95.3,81.4 "/>
-                </svg>
-                <h1 class="logo__name text-centered">Mineralz</h1>
-            </a>
-            <p class="logo__text text-centered">Jesus Marie</p>
-            </div>
+        <div class="grid-100">
+        <a href="{% url 'catalog:list' 'a' %}">
+            <svg class="logo" viewBox="0 0 127.6 84.8" preserveAspectRation="xMinYMin meet">
+                <polygon points="42.7,84.8 49.6,79.4 40,62.5 51.2,43.5 51.2,43.5 25,0 0,55.6 "/>
+                <polygon class="logo--middle" points="52.9,79.5 52.9,79.5 84.8,80.1 59.7,35 43.3,62.4 "/>
+                <polygon points="127.6,61.4 127.6,61.4 110.3,13.5 110.3,13.5 70.3,48.1 70.3,48.1 88.3,80.5 95.3,81.4 95.3,81.4 "/>
+            </svg>
+            <h1 class="logo__name text-centered">Mineralz</h1>
+        </a>
+        <p class="logo__text text-centered">Jesus Marie</p>
         </div>
-        {% block content %}{% endblock %}
-        <footer>
-            <section style="text-align:center;">
-            {% for letter in 'abcdefghijklmnopqrstuvwxyz' %}
-                {% with 'list/'|concat:letter as target_url %}
+        <section style="text-align:center;">
+            <form action="{% url 'catalog:search' %}">
+                <ul>
+                    <li><input type="search" name="query"></li>
+                    <li><button type="submit">Search</button></li>
+                </ul>
+            </form>
+        </section>
+        <section style="text-align:center;">
+        {% for letter in 'abcdefghijklmnopqrstuvwxyz' %}
+            {% with '/list/'|concat:letter as target_url %}
                 {% if target_url == request.path %}
                 <strong><a href="{% url 'catalog:list' letter %}">{{ letter }}</a></strong>
                 {% else %}
                 <a href="{% url 'catalog:list' letter %}">{{ letter }}</a>
                 {% endif %}
-                {% endwith %}
-            {% endfor %}
-            </section>
-        </footer>
+            {% endwith %}
+        {% endfor %}
+        </section>
+        <section style="text-align:center;">
+        {% for key, value in groups.items %}
+            {% with '/list/group/'|concat:key as target_url %}
+                {% if target_url == request.path %}
+                <strong><a href="{% url 'catalog:list_by_group' key %}">{{ value }}</a></strong>
+                {% else %}
+                <a href="{% url 'catalog:list_by_group' key %}">{{ value }}</a>
+                {% endif %}
+            {% endwith %}
+        {% endfor %}
+        </section>
+        {% block content %}{% endblock %}
     </body>
 </html>

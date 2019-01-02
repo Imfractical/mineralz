@@ -1,11 +1,12 @@
-"""mineral_catalog model definitions"""
+"""mineral_catalog models"""
 from django.db import models
 from django.utils.text import slugify
 
-MAX_LENGTH = 100
+MAX_LENGTH = 500
 
 
 class Mineral(models.Model):
+    """Model that describes a mineral in detail"""
     name = models.CharField(max_length=MAX_LENGTH)
     slug = models.SlugField(unique=True, max_length=MAX_LENGTH)
     image_filename = models.CharField(max_length=MAX_LENGTH)
