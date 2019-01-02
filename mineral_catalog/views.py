@@ -65,3 +65,11 @@ def search(request):
     ).filter(search__icontains=query)
 
     return render(request, 'mineral_catalog/list.html', {'minerals': minerals})
+
+
+def search_by_color(request):
+    """Show all minerals that match a query minerals' color field"""
+    query = request.GET['query']
+    minerals = Mineral.objects.filter(color__search=query)
+
+    return render(request, 'mineral_catalog/list.html', {'minerals': minerals})

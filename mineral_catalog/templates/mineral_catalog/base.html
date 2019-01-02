@@ -39,6 +39,14 @@
             </form>
         </section>
         <section style="text-align:center;">
+            <form action="{% url 'catalog:search_by_color' %}">
+                <ul>
+                    <li><input type="search" name="query"></li>
+                    <li><button type="submit">Search by color</button></li>
+                </ul>
+            </form>
+        </section>
+        <section style="text-align:center;">
         {% for letter in 'abcdefghijklmnopqrstuvwxyz' %}
             {% with '/list/'|concat:letter as target_url %}
                 {% if target_url == request.path %}

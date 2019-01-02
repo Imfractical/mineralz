@@ -14,4 +14,5 @@ urlpatterns = [
     path('view/<slug:mineral_slug>/', views.detail_mineral, name='detail'),
     path('view/', views.redirect_to_list),
     path('search/', views.search, name='search'),
+    path('search/color/', views.search_by_color, name='search_by_color'),
 ]
