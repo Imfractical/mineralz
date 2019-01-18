@@ -53,7 +53,7 @@ def detail_mineral(request, mineral_slug):
 
 def search(request):
     """Show all the minerals whose name contains the search query"""
-    query = request.GET['query']
+    query = request.GET.get('query')
     minerals = Mineral.objects.filter(
         Q(name__istartswith=query)
         | Q(slug__istartswith=query)
@@ -83,7 +83,7 @@ def search(request):
 
 def search_by_color(request):
     """Show all minerals that match a query minerals' color field"""
-    query = request.GET['query']
-    minerals = Mineral.objects.filter(color__search=query)
+    query = request.GET.get('query')
+    minerals = Mineral.objects.filter(color__icontains=query)
 
     return render(request, 'mineral_catalog/list.html', {'minerals': minerals})

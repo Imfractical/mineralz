@@ -17,7 +17,7 @@
             <tr>
                 {% if mineral|getattr:field %}
                     {% if field == 'formula' %}<td class="mineral__formula">{% else %}<td class="mineral__category">{% endif %}{{ field|title }}</td>
-                    <td>{{ mineral|getattr:field|safe|capfirst }}</td>
+                    <td>{{ mineral|getattr:field|safe }}</td>
                 {% endif %}
             </tr>
             {% endfor %}

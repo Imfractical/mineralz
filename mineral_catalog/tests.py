@@ -224,7 +224,7 @@ class ViewTests(TestCase):
     def test_search_view(self):
         response = self.client.get(reverse('catalog:search'), {'query': 'pink'})
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Alabandite')
+        self.assertContains(response, 'Abelsonite')
 
     def test_search_by_color_view(self):
         response = self.client.get(reverse('catalog:search_by_color'), {'query': 'pink'})
