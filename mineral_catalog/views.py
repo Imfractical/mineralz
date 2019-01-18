@@ -1,5 +1,5 @@
 """mineral_catalog views"""
-from django.contrib.postgres.search import SearchVector
+from django.db.models import Q
 from django.shortcuts import redirect, render
 
 from .models import Mineral
@@ -28,10 +28,25 @@ def list_minerals_by_group(request, group):
 def detail_mineral(request, mineral_slug):
     """Show all the attributes of a particular mineral"""
     mineral = Mineral.objects.get(slug=mineral_slug)
-    fields = ('category', 'formula', 'strunz_classification', 'crystal_system',
-              'unit_cell', 'color', 'crystal_symmetry', 'cleavage',
-              'mohs_scale_hardness', 'luster', 'streak', 'diaphaneity', 'optical_properties',
-              'refractive_index', 'crystal_habit', 'specific_gravity', 'group')
+    fields = (
+        'category',
+        'formula',
+        'strunz_classification',
+        'crystal_system',
+        'unit_cell',
+        'color',
+        'crystal_symmetry',
+        'cleavage',
+        'mohs_scale_hardness',
+        'luster',
+        'streak',
+        'diaphaneity',
+        'optical_properties',
+        'refractive_index',
+        'crystal_habit',
+        'specific_gravity',
+        'group',
+    )
 
     return render(request, 'mineral_catalog/detail.html', {'mineral': mineral, 'fields': fields})
 
@@ -39,30 +54,29 @@ def detail_mineral(request, mineral_slug):
 def search(request):
     """Show all the minerals whose name contains the search query"""
     query = request.GET['query']
-    minerals = Mineral.objects.annotate(
-        search=SearchVector(
-            'name',
-            'slug',
-            'image_filename',
-            'image_caption',
-            'category',
-            'formula',
-            'strunz_classification',
-            'crystal_system',
-            'unit_cell',
-            'color',
-            'crystal_symmetry',
-            'cleavage', 'mohs_scale_hardness',
-            'luster',
-            'streak',
-            'diaphaneity',
-            'optical_properties',
-            'refractive_index',
-            'crystal_habit',
-            'specific_gravity',
-            'group',
-        )
-    ).filter(search__icontains=query)
+    minerals = Mineral.objects.filter(
+        Q(name__istartswith=query)
+        | Q(slug__istartswith=query)
+        | Q(image_filename__istartswith=query)
+        | Q(image_caption__istartswith=query)
+        | Q(category__istartswith=query)
+        | Q(formula__istartswith=query)
+        | Q(strunz_classification__istartswith=query)
+        | Q(crystal_system__istartswith=query)
+        | Q(unit_cell__istartswith=query)
+        | Q(color__istartswith=query)
+        | Q(crystal_symmetry__istartswith=query)
+        | Q(cleavage__istartswith=query)
+        | Q(mohs_scale_hardness__istartswith=query)
+        | Q(luster__istartswith=query)
+        | Q(streak__istartswith=query)
+        | Q(diaphaneity__istartswith=query)
+        | Q(optical_properties__istartswith=query)
+        | Q(refractive_index__istartswith=query)
+        | Q(crystal_habit__istartswith=query)
+        | Q(specific_gravity__istartswith=query)
+        | Q(group__istartswith=query)
+    )
 
     return render(request, 'mineral_catalog/list.html', {'minerals': minerals})
 
