@@ -33,7 +33,7 @@ class MineralTests(TestCase):
             unit_cell='a = 9.658 Å, b = 8.795 Å, c = 5.294 Å, β = 107.42°; Z=4',
             color='Dark Green, Greenish Black',
             crystal_symmetry='Monoclinic 2/m',
-            cleavage='Good on \{110\}, (110) ^ (110) ≈87°; parting on \{100\}',
+            cleavage='Good on {110}, (110) ^ (110) ≈87°; parting on {100}',
             mohs_scale_hardness='6',
             luster='Vitreous to slightly resinous',
             streak='Yellowish-grey',
